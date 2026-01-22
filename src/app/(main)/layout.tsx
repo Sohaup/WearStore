@@ -1,16 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono , Courgette} from "next/font/google";
 import "../globals.css";
+import Header from "../_components/ui/Header/Header";
+import MainProvider from "@/providers/mainProvider";
+import Footer from "../_components/ui/Footer/Footer";
 
-const geistSans = Geist({
+export const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+export const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const corgeteFont = Courgette({
+  weight:"400" ,
+  subsets:['latin']
+}) 
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,11 +33,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${corgeteFont.className} antialiased`}
       >
-        <main>
-          {children}
-        </main>
+        <Header fontFamily={corgeteFont} />
+        <MainProvider>
+          <main>
+            {children}
+          </main>
+        </MainProvider>
+        <Footer/>
       </body>
     </html>
   );
