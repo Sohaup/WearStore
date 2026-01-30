@@ -11,23 +11,25 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper/types';
 
+
 const AsyncProductPrespictive = hocLoader(ProductsSectionPrepictive);
 
 export default function ProductSection() {
   const productsState = useSelector((store: storeType) => store.productsReducer);
   const dispatch = useDispatch<dispatchType>();
   const swiperRef = useRef<SwiperType>(null);
-   const imagesRef = useRef<HTMLDivElement>(null);
+  const imagesRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
-    dispatch(getProductsData());
+      dispatch(getProductsData());      
   }, []);
   return (
     <AsyncProductPrespictive isLoading={productsState.isLoading} isError={productsState.isError} product={productsState.products[0]} swiperRef={swiperRef} imagesRef={imagesRef} />
   )
 }
 
-function ProductsSectionPrepictive({ isLoading, isError, product, swiperRef , imagesRef }: { isLoading?: boolean, isError?: boolean, product?: productType, swiperRef?: React.RefObject<SwiperType | null>  , imagesRef?: React.RefObject<HTMLDivElement | null>}) {
- 
+function ProductsSectionPrepictive({ isLoading, isError, product, swiperRef, imagesRef }: { isLoading?: boolean, isError?: boolean, product?: productType, swiperRef?: React.RefObject<SwiperType | null>, imagesRef?: React.RefObject<HTMLDivElement | null> }) {
+
   return (
     <>
       {
@@ -35,15 +37,15 @@ function ProductsSectionPrepictive({ isLoading, isError, product, swiperRef , im
           <section className='cont flex flex-col lg:flex-row justify-between  gap-5 my-auto py-5'>
             < div className="product flex flex-col sm:flex-row-reverse  justify-between items-center gap-3 w-full lg:w-1/2" >
               <div className="img w-3/4 ">
-                <Swiper loop={true} slidesPerView={1} className='max-h-200 ' onSwiper={(swiper) => swiperRef ?  swiperRef.current = swiper  : ""}>
+                <Swiper loop={true} slidesPerView={1} className='max-h-200 ' onSwiper={(swiper) => swiperRef ? swiperRef.current = swiper : ""}>
                   {product.images.map((img) => <SwiperSlide key={img}><Image src={img} alt={product.title} width={200} height={200} className='w-full h-full rounded-lg' /></SwiperSlide>)}
                 </Swiper>
               </div>
               <div className="sub-imgs grid grid-cols-4 sm:grid-cols-1  gap-4 my-auto w-full lg:w-40 self-start " ref={imagesRef}>
                 {product.images.map((img, index) => <Image key={img} src={img} alt={product.title} width={200} height={200} className='w-40 h-40 rounded-lg sub-img' onClick={(e) => {
                   swiperRef?.current?.slideTo(index);
-                  const imgs = imagesRef?.current?.querySelectorAll(".sub-img");                 
-                  imgs?.forEach((subImg)=> {
+                  const imgs = imagesRef?.current?.querySelectorAll(".sub-img");
+                  imgs?.forEach((subImg) => {
                     if (subImg != e.currentTarget) {
                       console.log(`current ${subImg} target ${e.currentTarget}`)
                       subImg.classList.remove("border-5");
@@ -53,11 +55,11 @@ function ProductsSectionPrepictive({ isLoading, isError, product, swiperRef , im
                   });
                   e.currentTarget.classList.toggle("border-5");
                   e.currentTarget.classList.toggle("border-rose-700");
-                  e.currentTarget.classList.toggle("rounded-xl");                  
+                  e.currentTarget.classList.toggle("rounded-xl");
                 }}
                 />)}
               </div>
-            </div > 
+            </div >
             <div className="details w-full lg:w-1/2 flex flex-col justify-center  gap-5 mt-5 lg:my-0">
               <div className="title flex flex-col gap-5">
                 <h2 className='text-4xl  uppercase text-center lg:text-start'>{product.title}</h2>
